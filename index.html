@@ -246,7 +246,7 @@
     // 載入設定：從後端API取得
     async function loadSettings() {
       try {
-        const res = await fetch('http://localhost:3000/api/settings');
+        const res = await fetch('https://chat-backed-h4en.onrender.com');
         if (!res.ok) throw new Error('取得設定失敗');
         const data = await res.json();
 
@@ -279,7 +279,7 @@
       };
 
       try {
-        const res = await fetch('http://localhost:3000/api/settings', {
+        const res = await fetch('https://chat-backed-h4en.onrender.com', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(settings),
