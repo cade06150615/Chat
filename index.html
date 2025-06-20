@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>精緻聊天空間 - 設定</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&display=swap"
+    rel="stylesheet"
+  />
+  <style>
+    body {
+      font-family: 'Noto Sans TC', sans-serif;
+      background-color: #f8fafc;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .modal-overlay {
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    /* 選色方塊選中效果 */
+    .color-option.selected {
+      outline: 3px solid #2563eb;
+      outline-offset: 2px;
+    }
+  </style>
+</head>
+<body class="transition-colors">
+  <!-- 設定按鈕 -->
+  <div class="fixed bottom-4 right-4 z-50">
+    <button
+      id="settingsBtn"
+      class="bg-indigo-600 text-white px-5 py-3 rounded-full shadow-lg hover:bg-indigo-700 transition"
+      title="開啟設定"
+    >
+      ⚙️ 設定
+    </button>
+  </div>
+
+  <!-- 設定彈窗 -->
+  <div
+    id="settingsModal"
+    class="fixed inset-0 modal-overlay hidden flex items-center justify-center z-50"
+  >
+    <div
+      class="bg-white dark:bg-gray-800 rounded-xl shadow-xl p-6 w-full max-w-md mx-4 animate-fade-in"
+    >
+      <div class="flex justify-between items-center mb-5">
+        <h3
+          class="text-xl font-bold text-gray-800 dark:text-gray-100"
+          >設定</h3
+        >
+        <button
+          id="closeSettingsModal"
+          class="text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
+          aria-label="關閉設定"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div class="space-y-6">
+        <!-- 主題模式 -->
+        <div>
+          <label
+            for="themeSelect"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >主題模式</label
+          >
+          <select
+            id="themeSelect"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-gray-200"
+          >
+            <option value="light">亮色模式</option>
+            <option value="dark">暗色模式</option>
+          </select>
+        </div>
+
+        <!-- 字型大小 -->
+        <div>
+          <label
+            for="fontSizeSelect"
+            class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >字型大小</label
+          >
+          <select
+            id="fontSizeSelect"
+            class="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm dark:bg-gray-700 dark:text-gray-200"
+          >
+            <option value="sm">小 (14px)</option>
+            <option value="base">中 (16px)</option>
+            <option value="lg">大 (18px)</option>
+            <option value="xl">特大 (20px)</option>
+          </select>
+        </div>
+
+        <!-- 主要顏色 -->
+        <div>
+          <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
+            >主要顏色</label
+          >
+          <div class="flex space-x-3">
+            <div
+              class="color-option w-8 h-8 rounded-full cursor-pointer bg-indigo-600"
+              data-color="#4f46e5"
+              title="靛青 (Indigo)"
+            ></div>
+            <div
+              class="color-option w-8 h-8 rounded-full cursor-pointer bg-emerald-600"
+              data-color="#047857"
+              title="翡翠綠 (Emerald)"
+            ></div>
+            <div
+              class="color-option w-8 h-8 rounded-full cursor-pointer bg-rose-600"
+              data-color="#be123c"
+              title="玫瑰紅 (Rose)"
+            ></div>
+            <div
+              class="color-option w-8 h-8 rounded-full cursor-pointer bg-yellow-500"
+              data-color="#eab308"
+              title="黃色 (Yellow)"
+            ></div>
+          </div>
+        </div>
+
+        <!-- 開關設定 -->
+        <div class="space-y-3">
+          <label
+            class="flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-gray-300"
+          >
+            <input type="checkbox" id="autoEmoji" class="rounded" />
+            <span>自動開啟表情符號選單</span>
+          </label>
+
+          <label
+            class="flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-gray-300"
+          >
+            <input type="checkbox" id="enterSend" class="rounded" />
+            <span>按 Enter 鍵送出訊息</span>
+          </label>
+
+          <label
+            class="flex items-center space-x-2 cursor-pointer text-gray-700 dark:text-gray-300"
+          >
+            <input type="checkbox" id="enableSound" class="rounded" />
+            <span>收到訊息時播放提示音</span>
+          </label>
+        </div>
+
+        <div class="pt-4 border-t border-gray-300 dark:border-gray-600">
+          <button
+            id="resetBtn"
+            class="text-sm text-red-500 hover:underline"
+            title="重置設定"
+          >
+            重置設定
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const settingsBtn = document.getElementById('settingsBtn');
+    const settingsModal = document.getElementById('settingsModal');
+    const closeSettingsModal = document.getElementById('closeSettingsModal');
+
+    const themeSelect = document.getElementById('themeSelect');
+    const fontSizeSelect = document.getElementById('fontSizeSelect');
+    const colorOptions = document.querySelectorAll('.color-option');
+
+    const autoEmojiCheckbox = document.getElementById('autoEmoji');
+    const enterSendCheckbox = document.getElementById('enterSend');
+    const enableSoundCheckbox = document.getElementById('enableSound');
+
+    const resetBtn = document.getElementById('resetBtn');
+
+    // 目前選的主色 (預設靛青)
+    let currentMainColor = '#4f46e5';
+
+    // 顯示設定彈窗
+    settingsBtn.addEventListener('click', () => {
+      settingsModal.classList.remove('hidden');
+    });
+    // 關閉設定彈窗
+    closeSettingsModal.addEventListener('click', () => {
+      settingsModal.classList.add('hidden');
+    });
+    settingsModal.addEventListener('click', (e) => {
+      if (e.target === settingsModal) settingsModal.classList.add('hidden');
+    });
+
+    // 套用主題模式
+    function applyTheme(theme) {
+      if (theme === 'dark') {
+        document.body.classList.add('bg-gray-900', 'text-white');
+        document.documentElement.classList.add('dark');
+      } else {
+        document.body.classList.remove('bg-gray-900', 'text-white');
+        document.documentElement.classList.remove('dark');
+      }
+    }
+
+    // 套用字型大小
+    function applyFontSize(size) {
+      const sizes = {
+        sm: '14px',
+        base: '16px',
+        lg: '18px',
+        xl: '20px',
+      };
+      document.body.style.fontSize = sizes[size] || sizes.base;
+    }
+
+    // 套用主色調整
+    function applyMainColor(color) {
+      document.documentElement.style.setProperty('--main-color', color);
+      currentMainColor = color;
+    }
+
+    // 選擇主色
+    function selectColorOption(color) {
+      colorOptions.forEach((el) => {
+        if (el.dataset.color === color) {
+          el.classList.add('selected');
+        } else {
+          el.classList.remove('selected');
+        }
+      });
+      applyMainColor(color);
+    }
+
+    // 載入設定：從後端API取得
+    async function loadSettings() {
+      try {
+        const res = await fetch('http://localhost:3000/api/settings');
+        if (!res.ok) throw new Error('取得設定失敗');
+        const data = await res.json();
+
+        // 帶入UI
+        themeSelect.value = data.theme || 'light';
+        fontSizeSelect.value = data.fontSize || 'base';
+        selectColorOption(data.mainColor || '#4f46e5');
+
+        autoEmojiCheckbox.checked = !!data.autoEmoji;
+        enterSendCheckbox.checked = !!data.enterSend;
+        enableSoundCheckbox.checked = !!data.enableSound;
+
+        // 套用
+        applyTheme(themeSelect.value);
+        applyFontSize(fontSizeSelect.value);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+
+    // 儲存設定：送出到後端API
+    async function saveSettings() {
+      const settings = {
+        theme: themeSelect.value,
+        fontSize: fontSizeSelect.value,
+        mainColor: currentMainColor,
+        autoEmoji: autoEmojiCheckbox.checked,
+        enterSend: enterSendCheckbox.checked,
+        enableSound: enableSoundCheckbox.checked,
+      };
+
+      try {
+        const res = await fetch('http://localhost:3000/api/settings', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(settings),
+        });
+        if (!res.ok) throw new Error('儲存設定失敗');
+        const data = await res.json();
+        console.log(data.message);
+      } catch (e) {
+        alert(e.message);
+      }
+    }
+
+    // 事件監聽器
+    themeSelect.addEventListener('change', () => {
+      applyTheme(themeSelect.value);
+      saveSettings();
+    });
+
+    fontSizeSelect.addEventListener('change', () => {
+      applyFontSize(fontSizeSelect.value);
+      saveSettings();
+    });
+
+    colorOptions.forEach((el) => {
+      el.addEventListener('click', () => {
+        selectColorOption(el.dataset.color);
+        saveSettings();
+      });
+    });
+
+    autoEmojiCheckbox.addEventListener('change', saveSettings);
+    enterSendCheckbox.addEventListener('change', saveSettings);
+    enableSoundCheckbox.addEventListener('change', saveSettings);
+
+    resetBtn.addEventListener('click', () => {
+      // 重置為預設值
+      themeSelect.value = 'light';
+      fontSizeSelect.value = 'base';
+      selectColorOption('#4f46e5');
+      autoEmojiCheckbox.checked = false;
+      enterSendCheckbox.checked = false;
+      enableSoundCheckbox.checked = false;
+
+      applyTheme('light');
+      applyFontSize('base');
+
+      saveSettings();
+    });
+
+    // 初始化載入
+    window.addEventListener('DOMContentLoaded', loadSettings);
+  </script>
+</body>
+</html>
